@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 
 public interface RestfulController< //
-    I extends RestfulItem<ID>, ID, R extends CrudRepository<I, ID>> {
-
-  RestfulRoute<ID> getRoute();
+    I extends RestfulItem<ID>, ID, R extends CrudRepository<I, ID>>
+    extends RestfulRouteController<ID> {
 
   R getRepository();
 
@@ -51,15 +50,6 @@ public interface RestfulController< //
 
     model.addAttribute(getItemKey(), getOption().getBeforeAdd() == null ? item
         : getOption().getBeforeAdd().apply(item));
-  }
-
-  @ModelAttribute
-  default void setRoute(Model model) {
-    model.addAttribute(getRouteKey(), getRoute());
-  }
-
-  default String getRouteKey() {
-    return "route";
   }
 
   default String getItemKey() {
