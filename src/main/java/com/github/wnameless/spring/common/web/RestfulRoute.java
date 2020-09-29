@@ -101,11 +101,13 @@ public interface RestfulRoute<ID> extends JoinablePath {
   }
 
   default RestfulRoute<ID> getTemplateRoute() {
+    String templatePath = getTemplatePath();
+
     return new RestfulRoute<ID>() {
 
       @Override
       public String getIndexPath() {
-        return getTemplatePath();
+        return templatePath;
       }
 
     };
