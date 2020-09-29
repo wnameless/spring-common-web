@@ -28,8 +28,29 @@ public interface RestfulRoute<ID> extends JoinablePath {
     };
   }
 
+  public static <ID> RestfulRoute<ID> of(String indexPath,
+      String templatePath) {
+    return new RestfulRoute<ID>() {
+
+      @Override
+      public String getIndexPath() {
+        return indexPath;
+      }
+
+      @Override
+      public String getTemplatePath() {
+        return templatePath;
+      }
+
+    };
+  }
+
   @Override
   default String getRootPath() {
+    return getIndexPath();
+  }
+
+  default String getTemplatePath() {
     return getIndexPath();
   }
 
@@ -77,6 +98,17 @@ public interface RestfulRoute<ID> extends JoinablePath {
 
   default String destroyPath(ID id) {
     return getDestroyPath(id);
+  }
+
+  default RestfulRoute<ID> getTemplateRoute() {
+    return new RestfulRoute<ID>() {
+
+      @Override
+      public String getIndexPath() {
+        return getTemplatePath();
+      }
+
+    };
   }
 
 }
